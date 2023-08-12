@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<robot name="myfirstrobot">
+    <material name="blue">
+        <color rgba="0 0 0.8 0.6"/>
+    </material>
+
+    <material name="white">
+        <color rgba="1 1 1 0.6"/>
+    </material>
+
+  <material name="orange">
+    <color rgba="1 0.4 0.1 0.6"/>
+  </material>
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 2"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 1"/>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="2" radius="0.2"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 1"/>
+        </collision>
+        <inertial>
+      <origin xyz="0 0 1" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+                ixx="0.3342" ixy="0.0" ixz="0.0"
+                iyy="0.3342" iyz="0.0"
+                izz="0.0017"/>          
+        </inertial>
+    </link>
+
+    <joint name="joint1" type="continuous">
+        <parent link="base_link"/>
+        <child link="middle_link"/>
+        <origin rpy="0 0 0" xyz="0 0 2"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="middle_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 1"/>
+            </geometry>
+            <origin rpy="0 1.57075 0" xyz="0.5 0 0"/>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="1" radius="0.2"/>
+            </geometry>
+            <origin rpy="0 1.57075 0" xyz="0.5 0 0"/>
+        </collision>
+        <inertial>
+      <origin xyz="0.5 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+                ixx="0.0017" ixy="0.0" ixz="0.0"
+                iyy="0.085" iyz="0.0"
+                izz="0.085"/>           
+        </inertial>
+    </link>
+
+    <joint name="joint2" type="continuous">
+        <parent link="middle_link"/>
+        <child link="top_link"/>
+        <origin rpy="0 0 0" xyz="1 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="top_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 1"/>
+            </geometry>
+            <origin rpy="0 1.57075 0" xyz="0.5 0 0"/>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="1" radius="0.2"/>
+            </geometry>
+            <origin rpy="0 1.57075 0" xyz="0.5 0 0"/>
+        </collision>
+        <inertial>
+      <origin xyz="0.5 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+                ixx="0.0017" ixy="0.0" ixz="0.0"
+                iyy="0.085" iyz="0.0"
+                izz="0.085"/>           
+        </inertial>
+    </link>
+
+    <!-- 末端固定 -->
+    <!-- <joint name="end" type="fixed">
+        <parent link="top_link"/>
+        <child link="end_link"/>
+        <origin rpy="0 0 0" xyz="1 0 0"/>
+    </joint> -->
+
+    <!-- 末端可动（但受限） -->
+    <joint name="end" type="revolute">
+        <axis xyz="1 0 0"/>
+        <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+        <parent link="top_link"/>
+        <child link="end_link"/>
+        <origin rpy="0 0 0" xyz="1 0 0"/>
+    </joint>
+
+    <link name="end_link">
+        <visual>
+            <geometry>
+                <sphere radius="0.1"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.15"/>
+            </geometry>
+        </collision>
+        <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+                ixx="0.0017" ixy="0.0" ixz="0.0"
+                iyy="0.0017" iyz="0.0"
+                izz="0.0017"/>          
+        </inertial>
+    </link>
+</robot>
